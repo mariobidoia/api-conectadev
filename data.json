@@ -1,0 +1,45 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "nome": "Pedro Lucas",
+      "email": "pedro@conectadev.com",
+      "telefone": "11999999999",
+      "senha": "password123"
+    }
+  ],
+  "tags": [
+    { "id": 1, "name": "javascript" },
+    { "id": 2, "name": "html" },
+    { "id": 3, "name": "css" },
+    { "id": 4, "name": "php" },
+    { "id": 5, "name": "nodejs" },
+    { "id": 6, "name": "python" },
+    { "id": 7, "name": "coding" }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "authorId": 1,
+      "title": "Como centralizar uma div de forma moderna",
+      "description": "Dicas rápidas de CSS.",
+      "content": "Para centralizar uma div hoje em dia, o *flexbox* é a melhor abordagem.",
+      "tags": ["css", "html"],
+      "createdAt": "2026-04-28T10:00:00Z",
+      "views": 1542,
+      "isAnswered": true
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "postId": 1,
+      "authorId": 1,
+      "authorName": "Pedro Lucas",
+      "content": "Excelente dica!",
+      "upvotes": 10,
+      "downvotes": 0,
+      "createdAt": "2026-04-28T10:30:00Z"
+    }
+  ]
+}

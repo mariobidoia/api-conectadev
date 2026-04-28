@@ -1,0 +1,73 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "ConectaDEV API Completa",
+    "version": "1.0.0",
+    "description": "API Mock com CRUD completo (Nativo em JS) para testes da prova."
+  },
+  "servers": [
+    { "url": "http://localhost:3000" }
+  ],
+  "paths": {
+    "/api/{resource}": {
+      "get": {
+        "summary": "Lista todos os itens de um recurso",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resource",
+            "required": true,
+            "schema": { "type": "string", "enum": ["users", "tags", "posts", "comments"] }
+          }
+        ],
+        "responses": { "200": { "description": "Lista retornada com sucesso" } }
+      },
+      "post": {
+        "summary": "Cria um novo item no recurso",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resource",
+            "required": true,
+            "schema": { "type": "string", "enum": ["users", "tags", "posts", "comments"] }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "type": "object" } } }
+        },
+        "responses": { "201": { "description": "Item criado" } }
+      }
+    },
+    "/api/{resource}/{id}": {
+      "get": {
+        "summary": "Busca um item específico pelo ID",
+        "parameters": [
+          { "in": "path", "name": "resource", "required": true, "schema": { "type": "string", "enum": ["users", "tags", "posts", "comments"] } },
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": { "200": { "description": "Item encontrado" }, "404": { "description": "Não encontrado" } }
+      },
+      "put": {
+        "summary": "Atualiza um item específico pelo ID",
+        "parameters": [
+          { "in": "path", "name": "resource", "required": true, "schema": { "type": "string", "enum": ["users", "tags", "posts", "comments"] } },
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "type": "object" } } }
+        },
+        "responses": { "200": { "description": "Item atualizado" }, "404": { "description": "Não encontrado" } }
+      },
+      "delete": {
+        "summary": "Deleta um item específico pelo ID",
+        "parameters": [
+          { "in": "path", "name": "resource", "required": true, "schema": { "type": "string", "enum": ["users", "tags", "posts", "comments"] } },
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": { "200": { "description": "Item deletado" }, "404": { "description": "Não encontrado" } }
+      }
+    }
+  }
+}
