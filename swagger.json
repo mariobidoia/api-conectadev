@@ -3,70 +3,205 @@
   "info": {
     "title": "ConectaDEV API Completa",
     "version": "1.0.0",
-    "description": "API Mock com CRUD completo (Nativo em JS) para testes da prova."
+    "description": "API Mock com CRUD completo (Nativo em JS) para testes da prova, incluindo Autenticação JWT."
   },
   "servers": [
-    { "url": "http://localhost:3000" }
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
   ],
   "paths": {
+    "/api/auth/register": {
+      "post": {
+        "summary": "Cria um novo usuário (Registrar)",
+        "security": [],
+        "tags": ["Autenticação"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": { "type": "string" },
+                  "email": { "type": "string" },
+                  "telefone": { "type": "string" },
+                  "senha": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Usuário registrado com sucesso" },
+          "400": { "description": "Dados inválidos ou e-mail já em uso" }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "summary": "Realiza login para receber o Token JWT",
+        "security": [],
+        "tags": ["Autenticação"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string" },
+                  "senha": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Token gerado com sucesso" },
+          "401": { "description": "Credenciais inválidas" }
+        }
+      }
+    },
     "/api/{resource}": {
       "get": {
         "summary": "Lista todos os itens de um recurso",
+        "security": [],
+        "tags": ["CRUD Genérico"],
         "parameters": [
           {
             "in": "path",
             "name": "resource",
             "required": true,
-            "schema": { "type": "string", "enum": ["users", "tags", "posts", "comments"] }
+            "schema": {
+              "type": "string",
+              "enum": ["users", "tags", "posts", "comments"]
+            }
           }
         ],
-        "responses": { "200": { "description": "Lista retornada com sucesso" } }
+        "responses": {
+          "200": { "description": "Lista retornada com sucesso" }
+        }
       },
       "post": {
-        "summary": "Cria um novo item no recurso",
+        "summary": "Cria um novo item no recurso (Requer Token)",
+        "tags": ["CRUD Genérico"],
         "parameters": [
           {
             "in": "path",
             "name": "resource",
             "required": true,
-            "schema": { "type": "string", "enum": ["users", "tags", "posts", "comments"] }
+            "schema": {
+              "type": "string",
+              "enum": ["users", "tags", "posts", "comments"]
+            }
           }
         ],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "type": "object" } } }
+          "content": {
+            "application/json": {
+              "schema": { "type": "object" }
+            }
+          }
         },
-        "responses": { "201": { "description": "Item criado" } }
+        "responses": {
+          "201": { "description": "Item criado" },
+          "401": { "description": "Token não fornecido" }
+        }
       }
     },
     "/api/{resource}/{id}": {
       "get": {
         "summary": "Busca um item específico pelo ID",
+        "security": [],
+        "tags": ["CRUD Genérico"],
         "parameters": [
-          { "in": "path", "name": "resource", "required": true, "schema": { "type": "string", "enum": ["users", "tags", "posts", "comments"] } },
-          { "in": "path", "name": "id", "required": true, "schema": { "type": "integer" } }
+          {
+            "in": "path",
+            "name": "resource",
+            "required": true,
+            "schema": { "type": "string", "enum": ["users", "tags", "posts", "comments"] }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
         ],
-        "responses": { "200": { "description": "Item encontrado" }, "404": { "description": "Não encontrado" } }
+        "responses": {
+          "200": { "description": "Item encontrado" },
+          "404": { "description": "Não encontrado" }
+        }
       },
       "put": {
-        "summary": "Atualiza um item específico pelo ID",
+        "summary": "Atualiza um item específico pelo ID (Requer Token)",
+        "tags": ["CRUD Genérico"],
         "parameters": [
-          { "in": "path", "name": "resource", "required": true, "schema": { "type": "string", "enum": ["users", "tags", "posts", "comments"] } },
-          { "in": "path", "name": "id", "required": true, "schema": { "type": "integer" } }
+          {
+            "in": "path",
+            "name": "resource",
+            "required": true,
+            "schema": { "type": "string", "enum": ["users", "tags", "posts", "comments"] }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
         ],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "type": "object" } } }
+          "content": {
+            "application/json": {
+              "schema": { "type": "object" }
+            }
+          }
         },
-        "responses": { "200": { "description": "Item atualizado" }, "404": { "description": "Não encontrado" } }
+        "responses": {
+          "200": { "description": "Item atualizado" },
+          "401": { "description": "Token não fornecido" },
+          "404": { "description": "Não encontrado" }
+        }
       },
       "delete": {
-        "summary": "Deleta um item específico pelo ID",
+        "summary": "Deleta um item específico pelo ID (Requer Token)",
+        "tags": ["CRUD Genérico"],
         "parameters": [
-          { "in": "path", "name": "resource", "required": true, "schema": { "type": "string", "enum": ["users", "tags", "posts", "comments"] } },
-          { "in": "path", "name": "id", "required": true, "schema": { "type": "integer" } }
+          {
+            "in": "path",
+            "name": "resource",
+            "required": true,
+            "schema": { "type": "string", "enum": ["users", "tags", "posts", "comments"] }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
         ],
-        "responses": { "200": { "description": "Item deletado" }, "404": { "description": "Não encontrado" } }
+        "responses": {
+          "200": { "description": "Item deletado" },
+          "401": { "description": "Token não fornecido" },
+          "404": { "description": "Não encontrado" }
+        }
       }
     }
   }
