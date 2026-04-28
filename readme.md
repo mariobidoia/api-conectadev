@@ -12,8 +12,30 @@ API desenvolvida em **Node.js nativo** (sem frameworks) para o projeto ConectaDE
    ```bash
    node server.js
    ```
-3. O servidor estará ativo em: ```http://localhost:3000 ```
+3. O servidor estará ativo em: ```bash
+http://localhost:3000 ```
 
-##📖 Documentação e Testes
+## 📖 Documentação e Testes
 Para facilitar o desenvolvimento do Front-End e validar os endpoints, aceda à interface interativa:
-👉 http://localhost:3000/docs
+```bash
+ http://localhost:3000/docs
+ ```
+
+## 🖇️ Estrutura de Rotas (API)
+
+A URL base para todos os recursos é ```http://localhost:3000/api/```
+
+| Recurso | Descrição | Métodos |
+| -------- | -------- | -------- |
+| users  | Gestão de utilizadores  | GET, POST, DELETE, PUT   |
+| posts  | Listagem e criação de publicações   | GET, POST, DELETE, PUT   |
+| tags  | Categorias pré-definidas   | GET, POST, DELETE, PUT   |
+| comments  | Comentários e avaliações   | GET, POST, DELETE, PUT   |
+
+## ⚠️ Notas Importantes
+* **Persistência:** Todas as alterações (POST/PUT/DELETE) modificam diretamente o ficheiro data.json.
+
+* **CORS:** Ativado por padrão para permitir o consumo via fetch em qualquer origem.
+
+* **ID Auto-incremento:** O sistema gera IDs automaticamente para novas entradas.
+
